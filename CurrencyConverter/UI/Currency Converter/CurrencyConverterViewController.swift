@@ -24,8 +24,10 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var btnConvert: UIButton!
     @IBOutlet weak var currencyPicker: UIPickerView!
     
+    private lazy var tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTap))
     private var viewModel: CurrencyConverterViewModel!
     private let disposeBag = DisposeBag()
+    
     
     func configure(viewModel: CurrencyConverterViewModel) {
         self.viewModel = viewModel
@@ -40,6 +42,20 @@ class CurrencyConverterViewController: UIViewController {
         setupBindings()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        view.removeGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - Tap
+    @objc func backgroundTap() {
+        currencyPicker.isHidden = true
+    }
     
     // MARK: - UI
     private func setupNavigationBar() {
