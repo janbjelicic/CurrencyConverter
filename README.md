@@ -5,8 +5,9 @@ This is a technical task implementation written as a part of a technical intervi
 ## Architecture and implementation
 The architecture used in this project is MVVM. Along side MVVM RxSwift is used to have a reactive and responsive app.
 For navigation purposes a basic coordinator is implemented.
-Unit test target is added with basic test functionality.
+Unit test target is added with basic test functionality. Protocol implementations of services and managers for easier testability and reusability as well for mockup purposes.
 App supports iOS versions 12.1 and greater.
+
 
 ## Functionality
 
