@@ -19,6 +19,10 @@ struct ConvertResponse: Codable {
 
 extension ConvertResponse {
     
-    static let example = ConvertResponse(from: Currency.euro.rawValue, to: Currency.britishPound.rawValue, rate: 0.33, fromAmount: 1.0, toAmount: 0.8)
+    static let example = ConvertResponse(from: Currency.euro.rawValue,
+                                         to: Currency.britishPound.rawValue,
+                                         rate: 0.33,
+                                         fromAmount: 1.0,
+                                         toAmount: 0.8)
     
 }

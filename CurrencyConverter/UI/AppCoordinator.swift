@@ -20,7 +20,8 @@ class AppCoordinator: Coordinator {
     }
     
     func start() {
-        guard let currencyConverterViewController = R.storyboard.main.currencyConverterViewControllerID() else { return }
+        guard let currencyConverterViewController =
+                R.storyboard.main.currencyConverterViewControllerID() else { return }
         // Network manager would be usually shared but for simplicity lets leave it like this for now.
         let networkManager = NetworkManager()
         let converterService = ConverterService(networkManager: networkManager)

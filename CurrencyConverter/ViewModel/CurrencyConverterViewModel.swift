@@ -54,12 +54,15 @@ class CurrencyConverterViewModel {
     }
     
     func convert(amount: Float) -> Observable<ConvertResponse?> {
-        return converterService.convert(ConvertRequest(from: fromCurrency.value.rawValue, to: toCurrency.value.rawValue, amount: amount)).map { [weak self] response in
-            guard let self = self else { return nil }
-            self.rate = response.rate
-            self.rateText = "1 \(self.fromCurrency.value.rawValue) = \(response.rate) \(self.toCurrency.value.rawValue)"
-            return response
-        }
+        return converterService.convert(ConvertRequest(from: fromCurrency.value.rawValue,
+                                                       to: toCurrency.value.rawValue, amount: amount))
+            .map { [weak self] response in
+                guard let self = self else { return nil }
+                self.rate = response.rate
+                self.rateText =
+                    "1 \(self.fromCurrency.value.rawValue) = \(response.rate) \(self.toCurrency.value.rawValue)"
+                return response
+            }
     }
     
 }

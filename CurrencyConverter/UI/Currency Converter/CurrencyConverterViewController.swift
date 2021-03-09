@@ -25,7 +25,8 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var btnConvert: UIButton!
     @IBOutlet weak var currencyPicker: UIPickerView!
     
-    private lazy var tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTap))
+    private lazy var tapGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                                 action: #selector(backgroundTap))
     private var viewModel: CurrencyConverterViewModel!
     private let disposeBag = DisposeBag()
     
@@ -85,6 +86,23 @@ class CurrencyConverterViewController: UIViewController {
             self.btnTo.setImage(currency.image, for: .normal)
         }).disposed(by: disposeBag)
         
+        bindTextFields()
+        
+        // Picker
+        Observable.just(viewModel.currencies).bind(to: currencyPicker.rx.itemTitles) { _, currency in
+            return currency.rawValue
+        }
+        .disposed(by: disposeBag)
+        currencyPicker.rx.itemSelected
+            .subscribe(onNext: { [weak self] row, _ in
+                guard let self = self else { return }
+                self.viewModel.updateCurrency(index: row)
+                self.viewConverted.isHidden = true
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindTextFields() {
         // Amount
         txtFieldAmount
             .rx
@@ -112,19 +130,6 @@ class CurrencyConverterViewController: UIViewController {
                     return
                 }
                 self.txtFieldAmount.text = String(convertedTo / rate)
-            })
-            .disposed(by: disposeBag)
-        
-        // Picker
-        Observable.just(viewModel.currencies).bind(to: currencyPicker.rx.itemTitles) { _, currency in
-            return currency.rawValue
-        }
-        .disposed(by: disposeBag)
-        currencyPicker.rx.itemSelected
-            .subscribe(onNext: { [weak self] row, _ in
-                guard let self = self else { return }
-                self.viewModel.updateCurrency(index: row)
-                self.viewConverted.isHidden = true
             })
             .disposed(by: disposeBag)
     }
@@ -155,7 +160,8 @@ class CurrencyConverterViewController: UIViewController {
             .subscribe(onNext: { [weak self] response in
                 guard let self = self, let response = response else { return }
                 self.txtFieldConvertedTo.text = String(response.toAmount)
-                // Rate could have been also tied through a label.rx binding but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
+                // Rate could have been also tied through a label.rx binding
+                // but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
                 self.lblRate.text = self.viewModel.rateText
                 self.viewConverted.isHidden = false
                 print(response)
@@ -177,7 +183,5 @@ class CurrencyConverterViewController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
-    
 
 }
-

@@ -13,6 +13,7 @@ target 'CurrencyConverter' do
   shared_pods
   pod 'RxCocoa'
   pod 'R.swift'
+  pod 'SwiftLint'
   
   target 'CurrencyConverterTests' do
     inherit! :search_paths
