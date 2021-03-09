@@ -20,7 +20,6 @@ class CurrencyConverterViewModel {
     let title = "Currency Converter"
     
     private let converterService: ConverterServiceProtocol
-    private var convertResponse: ConvertResponse?
     let currencies: [Currency]
     
     let fromCurrency: BehaviorRelay<Currency>
@@ -28,6 +27,7 @@ class CurrencyConverterViewModel {
     let amount: BehaviorRelay<String?>
     let convertedTo: BehaviorRelay<String?>
     var rate: Float?
+    var rateText: String?
     
     var pickerOpened: PickerOpened
     
@@ -39,6 +39,7 @@ class CurrencyConverterViewModel {
         self.amount = BehaviorRelay(value: nil)
         self.convertedTo = BehaviorRelay(value: nil)
         self.rate = nil
+        self.rateText = nil
         self.pickerOpened = .none
     }
     
@@ -56,13 +57,11 @@ class CurrencyConverterViewModel {
         toCurrency.accept(fromCurrencyValue)
     }
     
-    func convert(amount: Float) -> Observable<ConvertResponse> {
-        return converterService.convert(ConvertRequest(from: fromCurrency.value.rawValue, to: toCurrency.value.rawValue, amount: amount)).map { response in
-            #warning("Memory leak fix")
-            //guard let self = self else { return nil }
-            //self.convertedTo.accept(response.toAmount)
+    func convert(amount: Float) -> Observable<ConvertResponse?> {
+        return converterService.convert(ConvertRequest(from: fromCurrency.value.rawValue, to: toCurrency.value.rawValue, amount: amount)).map { [weak self] response in
+            guard let self = self else { return nil }
             self.rate = response.rate
-            self.convertResponse = response
+            self.rateText = "1 \(self.fromCurrency.value.rawValue) = \(response.rate) \(self.toCurrency.value.rawValue)"
             return response
         }
     }

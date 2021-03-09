@@ -11,6 +11,7 @@ import RxCocoa
 
 class CurrencyConverterViewController: UIViewController {
 
+    #warning("Add currency labels at the end of the text fields")
     @IBOutlet weak var btnFrom: UIButton!
     @IBOutlet weak var btnTo: UIButton!
     
@@ -28,11 +29,9 @@ class CurrencyConverterViewController: UIViewController {
     private var viewModel: CurrencyConverterViewModel!
     private let disposeBag = DisposeBag()
     
-    
     func configure(viewModel: CurrencyConverterViewModel) {
         self.viewModel = viewModel
     }
-    
     
     // MARK: - Lifecylce
     override func viewDidLoad() {
@@ -55,6 +54,8 @@ class CurrencyConverterViewController: UIViewController {
     // MARK: - Tap
     @objc func backgroundTap() {
         currencyPicker.isHidden = true
+        txtFieldAmount.resignFirstResponder()
+        txtFieldConvertedTo.resignFirstResponder()
     }
     
     // MARK: - UI
@@ -123,6 +124,7 @@ class CurrencyConverterViewController: UIViewController {
             .subscribe(onNext: { [weak self] row, _ in
                 guard let self = self else { return }
                 self.viewModel.updateCurrency(index: row)
+                self.viewConverted.isHidden = true
             })
             .disposed(by: disposeBag)
     }
@@ -140,6 +142,7 @@ class CurrencyConverterViewController: UIViewController {
     
     @IBAction func btnSwitchFromTo(_ sender: Any) {
         viewModel.switchCurrencies()
+        #warning("Add on switch that the textfields also get updated")
     }
     
     @IBAction func btnConvertOnClick(_ sender: Any) {
@@ -147,10 +150,10 @@ class CurrencyConverterViewController: UIViewController {
         viewModel.convert(amount: amount)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] response in
-                guard let self = self else { return }
+                guard let self = self, let response = response else { return }
                 self.txtFieldConvertedTo.text = String(response.toAmount)
                 // Rate could have been also tied through a label.rx binding but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
-                self.lblRate.text = "1 \(self.viewModel.fromCurrency.value.rawValue) = \(response.rate) \(self.viewModel.toCurrency.value.rawValue)"
+                self.lblRate.text = self.viewModel.rateText
                 self.viewConverted.isHidden = false
                 print(response)
             }, onError: { [weak self] error in
