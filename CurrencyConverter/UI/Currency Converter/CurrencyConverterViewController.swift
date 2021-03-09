@@ -11,6 +11,10 @@ class CurrencyConverterViewController: UIViewController {
 
     private var viewModel: CurrencyConverterViewModel!
     
+    func configure(viewModel: CurrencyConverterViewModel) {
+        self.viewModel = viewModel
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
