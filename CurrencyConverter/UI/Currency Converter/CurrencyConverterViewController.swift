@@ -48,6 +48,7 @@ class CurrencyConverterViewController: UIViewController {
     private func setupInitialUI() {
         currencyPicker.isHidden = true
         txtFieldAmount.addDoneCancelToolbar()
+        txtFieldConvertedTo.addDoneCancelToolbar()
     }
     
     private func setupBindings() {
@@ -64,6 +65,27 @@ class CurrencyConverterViewController: UIViewController {
             self.btnTo.setTitle(currency.rawValue, for: .normal)
             self.btnTo.setImage(currency.image, for: .normal)
         }).disposed(by: disposeBag)
+        
+        // Amount
+        txtFieldAmount
+            .rx
+            .controlEvent(.editingChanged)
+            .withLatestFrom(txtFieldAmount.rx.text.orEmpty)
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self, let rate = self.viewModel.rate else { return }
+            })
+            .disposed(by: disposeBag)
+//        txtFieldAmount.rx.text.bind
+        
+        // Converted To
+        txtFieldConvertedTo
+            .rx
+            .controlEvent(.editingChanged)
+            .withLatestFrom(txtFieldConvertedTo.rx.text.orEmpty)
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self, let rate = self.viewModel.rate else { return }
+            })
+            .disposed(by: disposeBag)
         
         // Picker
         Observable.just(viewModel.currencies).bind(to: currencyPicker.rx.itemTitles) { _, currency in
@@ -89,7 +111,6 @@ class CurrencyConverterViewController: UIViewController {
         viewModel.pickerOpened = .to
     }
     
-    
     @IBAction func btnSwitchFromTo(_ sender: Any) {
         viewModel.switchCurrencies()
     }
@@ -97,12 +118,30 @@ class CurrencyConverterViewController: UIViewController {
     @IBAction func btnConvertOnClick(_ sender: Any) {
         guard let text = txtFieldAmount.text, let amount = Float(text) else { return }
         viewModel.convert(amount: amount)
-            //.observe(on: MainScheduler.instance)
-            .subscribe(onNext: { response in
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] response in
+                guard let self = self else { return }
+                // Rate could have been also tied through a label.rx binding but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
+                self.txtFieldConvertedTo.text = String(response.toAmount)
+                self.lblRate.text = "1 \(self.viewModel.fromCurrency.value.rawValue) = \(response.rate) \(self.viewModel.toCurrency.value.rawValue)"
                 print(response)
-            }, onError: { error in
+            }, onError: { [weak self] error in
+                guard let self = self else { return }
                 print(error)
+                self.presentErrorAlert()
             }).disposed(by: disposeBag)
+    }
+    
+    // I consider alerts also a part of navigation so this could be added to a "router" class
+    // MARK: - Alert
+    func presentErrorAlert() {
+        let alert = UIAlertController(title: "Error",
+                                      message: "Error occurred, try again later",
+                                      preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
     
 
