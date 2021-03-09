@@ -47,6 +47,7 @@ class CurrencyConverterViewController: UIViewController {
     
     private func setupInitialUI() {
         currencyPicker.isHidden = true
+        txtFieldAmount.addDoneCancelToolbar()
     }
     
     private func setupBindings() {
@@ -94,7 +95,8 @@ class CurrencyConverterViewController: UIViewController {
     }
     
     @IBAction func btnConvertOnClick(_ sender: Any) {
-        viewModel.convert()
+        guard let text = txtFieldAmount.text, let amount = Float(text) else { return }
+        viewModel.convert(amount: amount)
             //.observe(on: MainScheduler.instance)
             .subscribe(onNext: { response in
                 print(response)

@@ -25,6 +25,7 @@
 		6DD5534D25F7785600CBAC16 /* ConvertResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5534C25F7785600CBAC16 /* ConvertResponse.swift */; };
 		6DD5535325F77D2900CBAC16 /* Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5535225F77D2900CBAC16 /* Codable.swift */; };
 		6DD5535625F780C100CBAC16 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5535525F780C100CBAC16 /* Currency.swift */; };
+		6DD5535925F7946F00CBAC16 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD5535825F7946F00CBAC16 /* UITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		6DD5534C25F7785600CBAC16 /* ConvertResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvertResponse.swift; sourceTree = "<group>"; };
 		6DD5535225F77D2900CBAC16 /* Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codable.swift; sourceTree = "<group>"; };
 		6DD5535525F780C100CBAC16 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		6DD5535825F7946F00CBAC16 /* UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
 		AC8ED79E87BA6888D5D1DFFE /* Pods_CurrencyConverter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyConverter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -192,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				6DD5535225F77D2900CBAC16 /* Codable.swift */,
+				6DD5535825F7946F00CBAC16 /* UITextField.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				6DD5531A25F76FAE00CBAC16 /* CurrencyConverterViewModel.swift in Sources */,
 				6DD5535325F77D2900CBAC16 /* Codable.swift in Sources */,
 				6DD5534325F776EE00CBAC16 /* NetworkError.swift in Sources */,
+				6DD5535925F7946F00CBAC16 /* UITextField.swift in Sources */,
 				6DD5532025F7709D00CBAC16 /* R.generated.swift in Sources */,
 				6DD5535625F780C100CBAC16 /* Currency.swift in Sources */,
 				6DD5533A25F775CC00CBAC16 /* ConvertRequest.swift in Sources */,

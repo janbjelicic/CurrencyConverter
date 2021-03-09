@@ -27,13 +27,6 @@ class CurrencyConverterViewModel {
     let toCurrency: BehaviorRelay<Currency>
     var pickerOpened: PickerOpened
     
-//    let user: Driver<User>
-//
-//    init(coordinator: Coordinator, user: User) {
-//        self.coordinator = coordinator
-//        self.user = BehaviorRelay(value: user).asDriver()
-//    }
-    
     init(converterService: ConverterServiceProtocol) {
         self.converterService = converterService
         self.currencies = Currency.allCases
@@ -56,8 +49,8 @@ class CurrencyConverterViewModel {
         toCurrency.accept(fromCurrencyValue)
     }
     
-    func convert() -> Observable<ConvertResponse> {
-        return converterService.convert(ConvertRequest(from: "EUR", to: "GBP", amount: 4.0)).map { response in
+    func convert(amount: Float) -> Observable<ConvertResponse> {
+        return converterService.convert(ConvertRequest(from: fromCurrency.value.rawValue, to: toCurrency.value.rawValue, amount: amount)).map { response in
             #warning("Memory leak fix")
             //guard let self = self else { return nil }
             self.convertResponse = response
