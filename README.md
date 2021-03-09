@@ -11,9 +11,13 @@ App supports iOS versions 12.1 and greater.
 ## Functionality
 
 The app consists of one screen on which the user has an option to choose:
+
 	1. the currency from which he wants to convert
+
 	2. the currency to which he wants to convert
+
 	3. amount that he wants to convert
+	
 Clicking on the convert button an API request is made (along with the conversion) and subsequently the converted amount is shown along with the exchange rate.
 
 The user is now free to change the amounts and make instant conversions because of the availiability of the exchange rate.
