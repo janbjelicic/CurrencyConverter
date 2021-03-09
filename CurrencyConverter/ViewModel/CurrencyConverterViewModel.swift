@@ -24,8 +24,6 @@ class CurrencyConverterViewModel {
     
     let fromCurrency: BehaviorRelay<Currency>
     let toCurrency: BehaviorRelay<Currency>
-    let amount: BehaviorRelay<String?>
-    let convertedTo: BehaviorRelay<String?>
     var rate: Float?
     var rateText: String?
     
@@ -36,8 +34,6 @@ class CurrencyConverterViewModel {
         self.currencies = Currency.allCases
         self.fromCurrency = BehaviorRelay(value: Currency.euro)
         self.toCurrency = BehaviorRelay(value: Currency.britishPound)
-        self.amount = BehaviorRelay(value: nil)
-        self.convertedTo = BehaviorRelay(value: nil)
         self.rate = nil
         self.rateText = nil
         self.pickerOpened = .none

@@ -142,10 +142,13 @@ class CurrencyConverterViewController: UIViewController {
     
     @IBAction func btnSwitchFromTo(_ sender: Any) {
         viewModel.switchCurrencies()
-        #warning("Add on switch that the textfields also get updated")
+        let amount = txtFieldAmount.text
+        txtFieldAmount.text = txtFieldConvertedTo.text
+        txtFieldConvertedTo.text = amount
     }
     
     @IBAction func btnConvertOnClick(_ sender: Any) {
+        backgroundTap()
         guard let text = txtFieldAmount.text, let amount = Float(text) else { return }
         viewModel.convert(amount: amount)
             .observe(on: MainScheduler.instance)
