@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 // EUR, GBP, RUB, PLN, RON, UAH, TRY
-enum Currency: String {
+enum Currency: String, CaseIterable {
     
     case euro = "EUR"
     case britishPound = "GBP"
@@ -22,19 +22,19 @@ enum Currency: String {
     var image: UIImage? {
         switch self {
         case .euro:
-            return R.image.eU()
+            return R.image.eU()?.withRenderingMode(.alwaysOriginal)
         case .britishPound:
-            return R.image.gB()
+            return R.image.gB()?.withRenderingMode(.alwaysOriginal)
         case .russianRuble:
-            return R.image.rU()
+            return R.image.rU()?.withRenderingMode(.alwaysOriginal)
         case .polishZloty:
-            return R.image.pL()
+            return R.image.pL()?.withRenderingMode(.alwaysOriginal)
         case .romanianLeu:
-            return R.image.rO()
+            return R.image.rO()?.withRenderingMode(.alwaysOriginal)
         case .ukranianHryvnia:
-            return R.image.uA()
+            return R.image.uA()?.withRenderingMode(.alwaysOriginal)
         case .turkishLira:
-            return R.image.tR()
+            return R.image.tR()?.withRenderingMode(.alwaysOriginal)
         }
     }
 }
