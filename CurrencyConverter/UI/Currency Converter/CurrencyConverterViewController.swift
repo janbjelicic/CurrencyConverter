@@ -11,6 +11,14 @@ import RxCocoa
 
 class CurrencyConverterViewController: UIViewController {
 
+    @IBOutlet weak var txtFieldAmount: UITextField!
+    @IBOutlet weak var txtFieldConvertedTo: UITextField!
+    
+    @IBOutlet weak var lblRate: UILabel!
+    @IBOutlet weak var lblDescription: UILabel!
+    
+    @IBOutlet weak var btnConvert: UIButton!
+    
     
     private var viewModel: CurrencyConverterViewModel!
     private let disposeBag = DisposeBag()
@@ -29,6 +37,10 @@ class CurrencyConverterViewController: UIViewController {
     }
     
     // MARK: - Buttons
+    @IBAction func btnSwitchFromTo(_ sender: Any) {
+        
+    }
+    
     @IBAction func btnConvertOnClick(_ sender: Any) {
         viewModel.convert()
             //.observe(on: MainScheduler.instance)
