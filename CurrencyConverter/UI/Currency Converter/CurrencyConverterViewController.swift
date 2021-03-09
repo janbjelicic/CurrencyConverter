@@ -12,6 +12,7 @@ import RxCocoa
 class CurrencyConverterViewController: UIViewController {
 
     #warning("Add currency labels at the end of the text fields")
+    #warning("Add network activity indicator to see that a network request is happening")
     @IBOutlet weak var btnFrom: UIButton!
     @IBOutlet weak var btnTo: UIButton!
     

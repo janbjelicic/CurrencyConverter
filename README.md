@@ -17,7 +17,7 @@ The app consists of one screen on which the user has an option to choose:
 	2. the currency to which he wants to convert
 
 	3. amount that he wants to convert
-	
+
 Clicking on the convert button an API request is made (along with the conversion) and subsequently the converted amount is shown along with the exchange rate.
 
 The user is now free to change the amounts and make instant conversions because of the availiability of the exchange rate.
@@ -43,3 +43,16 @@ When the pods get installed run the app in Xcode.
 
 Cmd + 6 to position yourself in Xcode to see the avilable tests and run them to check if everything is fine.
 
+## Missing
+
+Things missing because I didn't have enough time:
+
+1. texts indiciating which currency is in which text field. -> I can explain how I would implement that
+2. network activity indicator showing when a network call is made. 
+
+Different implementation than the mockup:
+
+1. missing image resources are exchanged with new images
+2. different description text
+3. text fields are implemented one below the other instead of side by side (stack view implementation possible here if I had more time)
+4. styling for some elements is not the same as on the mockup
