@@ -6,13 +6,20 @@
 //
 
 import Foundation
+import RxSwift
 
 class CurrencyConverterViewModel {
     
     let title = "Currency Converter"
     
-    init() {
-        
+    private let converterService: ConverterServiceProtocol
+    
+    init(converterService: ConverterServiceProtocol) {
+        self.converterService = converterService
+    }
+    
+    func convert() -> Observable<ConvertResponse> {
+        return converterService.convert(ConvertRequest(from: "EUR", to: "GBP", amount: 4.0))
     }
     
 }

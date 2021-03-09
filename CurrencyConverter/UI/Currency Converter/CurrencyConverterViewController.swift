@@ -12,8 +12,8 @@ import RxCocoa
 class CurrencyConverterViewController: UIViewController {
 
     
-    
     private var viewModel: CurrencyConverterViewModel!
+    private let disposeBag = DisposeBag()
     
     func configure(viewModel: CurrencyConverterViewModel) {
         self.viewModel = viewModel
@@ -30,7 +30,13 @@ class CurrencyConverterViewController: UIViewController {
     
     // MARK: - Buttons
     @IBAction func btnConvertOnClick(_ sender: Any) {
-        
+        viewModel.convert()
+            //.observe(on: MainScheduler.instance)
+            .subscribe(onNext: { response in
+                print(response)
+            }, onError: { error in
+                print(error)
+            }).disposed(by: disposeBag)
     }
     
 
