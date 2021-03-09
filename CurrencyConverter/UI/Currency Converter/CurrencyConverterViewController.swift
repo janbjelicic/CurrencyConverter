@@ -17,6 +17,7 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var txtFieldAmount: UITextField!
     @IBOutlet weak var txtFieldConvertedTo: UITextField!
     
+    @IBOutlet weak var viewConverted: UIView!
     @IBOutlet weak var lblRate: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     
@@ -46,6 +47,7 @@ class CurrencyConverterViewController: UIViewController {
     }
     
     private func setupInitialUI() {
+        viewConverted.isHidden = true
         currencyPicker.isHidden = true
         txtFieldAmount.addDoneCancelToolbar()
         txtFieldConvertedTo.addDoneCancelToolbar()
@@ -72,10 +74,14 @@ class CurrencyConverterViewController: UIViewController {
             .controlEvent(.editingChanged)
             .withLatestFrom(txtFieldAmount.rx.text.orEmpty)
             .subscribe(onNext: { [weak self] text in
-                guard let self = self, let rate = self.viewModel.rate else { return }
+                guard let self = self else { return }
+                guard let rate = self.viewModel.rate, let amount = Float(text) else {
+                    self.txtFieldConvertedTo.text = ""
+                    return
+                }
+                self.txtFieldConvertedTo.text = String(amount * rate)
             })
             .disposed(by: disposeBag)
-//        txtFieldAmount.rx.text.bind
         
         // Converted To
         txtFieldConvertedTo
@@ -83,7 +89,12 @@ class CurrencyConverterViewController: UIViewController {
             .controlEvent(.editingChanged)
             .withLatestFrom(txtFieldConvertedTo.rx.text.orEmpty)
             .subscribe(onNext: { [weak self] text in
-                guard let self = self, let rate = self.viewModel.rate else { return }
+                guard let self = self else { return }
+                guard let rate = self.viewModel.rate, let convertedTo = Float(text) else {
+                    self.txtFieldAmount.text = ""
+                    return
+                }
+                self.txtFieldAmount.text = String(convertedTo / rate)
             })
             .disposed(by: disposeBag)
         
@@ -121,9 +132,10 @@ class CurrencyConverterViewController: UIViewController {
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] response in
                 guard let self = self else { return }
-                // Rate could have been also tied through a label.rx binding but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
                 self.txtFieldConvertedTo.text = String(response.toAmount)
+                // Rate could have been also tied through a label.rx binding but I wanted to show-case observing on the observe(on: MainScheduler.instance) here.
                 self.lblRate.text = "1 \(self.viewModel.fromCurrency.value.rawValue) = \(response.rate) \(self.viewModel.toCurrency.value.rawValue)"
+                self.viewConverted.isHidden = false
                 print(response)
             }, onError: { [weak self] error in
                 guard let self = self else { return }
