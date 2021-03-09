@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CurrencyConverterViewController: UIViewController {
 
+    
+    
     private var viewModel: CurrencyConverterViewModel!
     
     func configure(viewModel: CurrencyConverterViewModel) {
@@ -17,9 +21,18 @@ class CurrencyConverterViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        title = viewModel.title
+    }
+    
+    // MARK: - Buttons
+    @IBAction func btnConvertOnClick(_ sender: Any) {
         
     }
-
+    
 
 }
 

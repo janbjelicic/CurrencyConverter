@@ -9,6 +9,8 @@ import Foundation
 
 class CurrencyConverterViewModel {
     
+    let title = "Currency Converter"
+    
     init() {
         
     }
